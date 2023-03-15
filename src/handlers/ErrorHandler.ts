@@ -28,15 +28,18 @@ class ErrorHandler {
   ) => {
     let { statusCode, message } = err;
 
-    res.locals.errorMessage = err.message;
+    if (err instanceof ApiError) {
+      res.locals.errorMessage = err.message;
 
-    const response = {
-      code: statusCode,
-      message,
-      ...(config.env === "development" && { stack: err.stack }),
-    };
+      const response = {
+        code: statusCode,
+        message,
+        ...(config.env === "development" && { stack: err.stack }),
+      };
 
-    res.status(statusCode).send(response);
+      return res.status(statusCode).send(response);
+    }
+    return err;
   };
 }
 
