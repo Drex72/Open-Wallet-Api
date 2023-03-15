@@ -8,22 +8,19 @@ class AuthController {
     this.authService = new AuthService();
   }
 
-  public async registerUser(req: Request, res: Response): Promise<void> {
+  registerUser = async (req: Request, res: Response): Promise<void> => {
     try {
       const { email, password } = req.body;
       const hashedPassword = await bcrypt.hash(password, 10);
       const newUser = await this.authService.createUser(email, hashedPassword);
     } catch (error) {}
-  }
+  };
 
   loginUser = async (req: Request, res: Response) => {
     try {
       const { email, password } = req.body;
-      // new AuthService().login(email, password);
-      this.authService.login(email, password);
-      res
-        .status(201)
-        .json({ message: `Created user with mail ${email} Successfully` });
+      const user = await this.authService.login(email, password);
+      res.status(201).json({ data: user });
     } catch (error) {}
   };
 }

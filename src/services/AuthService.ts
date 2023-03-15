@@ -1,16 +1,31 @@
+import responseHandler from "../handlers/ResponseHandler";
+import ResponseHandler from "../handlers/ResponseHandler";
+
 class AuthService {
-  constructor() {}
   /**
    * Create a user
    * @param {String} email
    * @param {String} password
    * @returns {Promise<{response: {code: *, message: *, status: boolean}, statusCode: *}>}
    */
-  async createUser(email: string, password: string): Promise<void> {
+  async createUser(
+    email: string,
+    password: string
+  ): Promise<{
+    response: { code: number; message: string; status: boolean };
+    statusCode: number;
+  }> {
     try {
-      console.log(email, password, "hey");
+      // Check if email exists
+      // Store basic info in jwt
+      // Return JWT
+      // Store refresh token in cookie
+      return responseHandler.responseSuccess(200, "Logged in Successfully", {
+        email,
+        password,
+      });
     } catch (error) {
-      console.log(error);
+      return responseHandler.responseError(400, "error");
     }
   }
   /**
@@ -19,12 +34,25 @@ class AuthService {
    * @param {String} password
    * @returns {Promise<{response: {code: *, message: *, status: boolean}, statusCode: *}>}
    */
-  async login(email: string, password: string): Promise<void> {
-    console.log("hey");
+  async login(
+    email: string,
+    password: string
+  ): Promise<{
+    response: { code: number; message: string; status: boolean };
+    statusCode: number;
+  }> {
     try {
-      console.log(email, password, "hey");
+      // Check if email exists
+      // Check if the password Correlates
+      // Store basic info in jwt
+      // Return JWT
+      // Store refresh token in cookie
+      return responseHandler.responseSuccess(200, "Logged in Successfully", {
+        email,
+        password,
+      });
     } catch (error) {
-      console.log(error);
+      return responseHandler.responseError(400, "error");
     }
   }
 }
