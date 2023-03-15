@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import bcrypt from "bcrypt";
 import AuthService from "../services/AuthService";
 
 class AuthController {
@@ -7,14 +6,25 @@ class AuthController {
   constructor() {
     this.authService = new AuthService();
   }
+  /**
+   *
+   * @param req
+   * @param res
+   * Creates a User
+   */
 
   registerUser = async (req: Request, res: Response): Promise<void> => {
     try {
       const { email, password } = req.body;
-      const hashedPassword = await bcrypt.hash(password, 10);
-      const newUser = await this.authService.createUser(email, hashedPassword);
+      const newUser = await this.authService.createUser(email, password);
     } catch (error) {}
   };
+
+  /**
+   * Logs in a User
+   * @param req
+   * @param res
+   */
 
   loginUser = async (req: Request, res: Response) => {
     try {

@@ -1,6 +1,0 @@
-services
-    auth
-    transfer
-    withdrawals
-    deposits
-    Wallet
