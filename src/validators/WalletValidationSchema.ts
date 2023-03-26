@@ -54,13 +54,12 @@ class WalletValidation {
     return next();
   }
 
-  async userLoginValidation(req: Request, res: Response, next: NextFunction) {
-    const { body } = req;
+  async getWalletByIdValidation(req: Request, res: any, next: NextFunction) {
+    const { params } = req;
 
     // Create User Schema
-    const loginUserValidationSchema: Joi.ObjectSchema = Joi.object({
-      email: Joi.string().required(),
-      password: Joi.string().required(),
+    const createUserValidationSchema: Joi.ObjectSchema = Joi.object({
+      id: Joi.string().required(),
     });
 
     // Schema Options
@@ -70,8 +69,8 @@ class WalletValidation {
       stripUnknown: true, // remove unknown props
     };
 
-    const { error, value } = loginUserValidationSchema.validate(
-      body,
+    const { error, value } = createUserValidationSchema.validate(
+      params,
       schemaOptions
     );
 
@@ -86,7 +85,6 @@ class WalletValidation {
       return next(new ApiError(errorMessage, 400));
     }
 
-    req.body = value;
     return next();
   }
 }

@@ -22,8 +22,19 @@ class WalletController {
 
   getAllWalletsForUser = async (req: any, res: Response): Promise<void> => {
     const { id: user_id } = req.user!;
-    const newWallet = await this.walletService.getWalletForUser(user_id);
-    res.status(newWallet.statusCode).send(newWallet.response);
+    const allWallets = await this.walletService.getWalletForUser(user_id);
+    res.status(allWallets.statusCode).send(allWallets.response);
+  };
+
+  getWalletById = async (req: Request, res: Response): Promise<void> => {
+    const { id } = req.params;
+    const foundWallet = await this.walletService.getWalletById(id);
+    res.status(foundWallet.statusCode).send(foundWallet.response);
+  };
+  deleteWalletById = async (req: Request, res: Response): Promise<void> => {
+    const { id } = req.params;
+    const deletedWallet = await this.walletService.deleteWalletById(id);
+    res.status(deletedWallet.statusCode).send(deletedWallet.response);
   };
 }
 

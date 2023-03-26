@@ -13,7 +13,13 @@ router
     walletValidation.createNewWalletValidation,
     walletController.createWallet
   );
-router.route("/:id").get().delete();
+router
+  .route("/:id")
+  .get(walletValidation.getWalletByIdValidation, walletController.getWalletById)
+  .delete(
+    walletValidation.getWalletByIdValidation,
+    walletController.deleteWalletById
+  );
 router.route("/:id/deposits").get().post();
 router.route("/:id/deposits/:deposit_id").get();
 router.route("/:id/withdrawals").get().post();

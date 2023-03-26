@@ -1,9 +1,6 @@
-import axios from "axios";
-import { isDataView } from "util/types";
 import sequelizeConnection from "../config/database";
 import responseHandler from "../handlers/ResponseHandler";
-import Currency from "../models/Currency";
-import Wallet, { WalletMap } from "../models/Wallets";
+import Wallet from "../models/Wallets";
 class WalletService {
   /**
    * Creates The Wallet
@@ -46,21 +43,50 @@ class WalletService {
     statusCode: number;
   }> {
     try {
-      // const allWallets = await Wallet.findAll({
-      //   where: { userId: user_id },
-      // });
-      const [results, metadata] = await sequelizeConnection.query(
-        `SELECT * FROM wallet JOIN currency ON wallet.curencyId=currency.id WHERE wallet.userId='${user_id}'`
-      );
+      const allWallets = await Wallet.findAll({
+        where: { userId: user_id },
+      });
+      // const [results, metadata] = await sequelizeConnection.query(
+      //   `SELECT * FROM wallet JOIN currency ON wallet.curencyId=currency.id WHERE wallet.userId='${user_id}'`
+      // );
 
       return responseHandler.responseSuccess(
         200,
         "All Wallets Fetched Successfully",
-        results
+        allWallets
       );
     } catch (error: any) {
       return responseHandler.responseError(400, error);
     }
+  }
+
+  /**
+   * Returns a wallet by it's Id
+   * @param wallet_id This is the Id of the wallet to be returned
+   */
+
+  async getWalletById(wallet_id: string) {
+    const wallet = await Wallet.findAll({ where: { id: wallet_id } });
+    if (wallet.length) {
+      return responseHandler.responseSuccess(
+        200,
+        "Wallet Retrieved Successfully",
+        wallet
+      );
+    }
+    return responseHandler.responseError(400, "Wallet Not Found");
+  }
+  /**
+   * Deletes the wallet with the Given Id
+   * @param wallet_id This is the Id of the wallet to be Deleted
+   */
+  async deleteWalletById(wallet_id: string) {
+    const deletedWallet = await Wallet.destroy({ where: { id: wallet_id } });
+    return responseHandler.responseSuccess(
+      204,
+      "Wallet deleted Successfully",
+      deletedWallet
+    );
   }
 }
 
