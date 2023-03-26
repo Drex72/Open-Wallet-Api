@@ -2,7 +2,6 @@
 
 ## Manual Installation
 
-
 Clone the repo:
 
 ```bash
@@ -16,6 +15,9 @@ Install the dependencies:
 npm install
 ```
 
+Create an Account at Fixer.Io and Get an API Key to add to your env
+[Fixer IO Website](https://www.fixer.io)
+
 Set the environment variables:
 
 ```bash
@@ -23,6 +25,7 @@ cp .env.example .env
 
 # open .env and modify the environment variables (if needed)
 ```
+
 ## Commands
 
 Running locally:
@@ -30,7 +33,6 @@ Running locally:
 ```bash
 npm run dev
 ```
-
 
 ## Environment Variables
 
