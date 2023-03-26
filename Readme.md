@@ -39,28 +39,22 @@ The environment variables can be found and modified in the `.env` file. They com
 ```bash
 #Server environment
 NODE_ENV=development
+
 #Port number
-PORT=5000
+PORT=6000
 
 #Db configuration
-DB_HOST=db-host
-DB_USER=db-user
-DB_PASS=db-pass
 DB_NAME=db-name
+DB_USERNAME=db-usernmae
+DB_HOST=db-host
+DB_PASSWORD=db-password
 
+# Access Token and Refresh Token Configuration
+ACCESS_TOKEN_SECRET=access-token-secret
+REFRESH_TOKEN_SECRET=refresh-token-secret
 
-# JWT secret key
-JWT_SECRET=your-jwt-secret-key
-# Number of minutes after which an access token expires
-JWT_ACCESS_EXPIRATION_MINUTES=5
-# Number of days after which a refresh token expires
-JWT_REFRESH_EXPIRATION_DAYS=30
-
-#Log config
-LOG_FOLDER=logs/
-LOG_FILE=%DATE%-app-log.log
-LOG_LEVEL=error
-
+# Fixer Io Configuration
+FIXER_IO_API_KEY=fixer-io-api-secret
 
 ```
 
@@ -71,16 +65,14 @@ specs\
 src\
  |--config\         # Environment variables and configuration related things
  |--controllers\    # Route controllers (controller layer)
- |--dao\            # Data Access Object for models
- |--db\             # Migrations and Seed files
+ |--exceptions\     # Error Exceptions
+ |--handlers\       # Handlers for various things
  |--models\         # Sequelize models (data layer)
  |--routes\         # Routes
  |--services\       # Business logic (service layer)
- |--helper\         # Helper classes and functions
- |--validations\    # Request data validation schemas
- |--app.js          # Express app
- |--cronJobs.js     # Job Scheduler
- |--index.js        # App entry point
+ |--utils\          # Helper classes and functions
+ |--validators\     # Request data validation schemas
+ |--index.ts        # App entry point
 ```
 
 ## License
