@@ -5,11 +5,10 @@ import httpStatus from "http-status";
 import ApiError from "./exceptions/ApiErrorException";
 import { config } from "./config";
 import sequelizeConnection from "./config/database";
-import { UserMap } from "./models";
 import Wallet, { WalletMap } from "./models/Wallets";
-import Currency, { CurrencyMap } from "./models/Currency";
+import { CurrencyMap } from "./models/Currency";
 import currencyService from "./services/CurrencyService";
-import User from "./models/Users";
+import User, { UserMap } from "./models/Users";
 
 const app: Application = express();
 
@@ -23,9 +22,11 @@ app.use((_, __, next) => {
   next(new ApiError("Not found", httpStatus.NOT_FOUND));
 });
 
+// Sets Error Handlers
 app.use(errorHandler.errorConverter);
 app.use(errorHandler.errorHandler);
 
+// Creates Models
 UserMap(sequelizeConnection);
 CurrencyMap(sequelizeConnection);
 WalletMap(sequelizeConnection);
