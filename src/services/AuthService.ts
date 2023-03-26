@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import User, { UserMap } from "../models/Users";
 import sequelizeConnection from "../config/database";
 import ApiErrorException from "../exceptions/ApiErrorException";
+import tokenHandler from "../handlers/TokenHandlers";
 
 class AuthService {
   /**
@@ -62,7 +63,7 @@ class AuthService {
     email: string,
     password: string
   ): Promise<{
-    response: { code: number; message: string; status: boolean };
+    response: { code: number; message: string; status: boolean; data?: any };
     statusCode: number;
   }> {
     try {
@@ -71,7 +72,7 @@ class AuthService {
       // Check if email exists
       const result = await User.findOne({ where: { email } });
       if (!result) {
-        return responseHandler.responseError(404, "Invalid Login Details");
+        return responseHandler.responseError(400, "Invalid Login Details");
       }
       const currentUser = result.dataValues;
 
@@ -87,13 +88,28 @@ class AuthService {
       }
 
       // Store basic info in jwt
-      // Return JWT
-      // Store refresh token in cookie
+      const accessToken = tokenHandler.createAccessToken(
+        {
+          id: currentUser.id,
+          firstname: currentUser.firstname,
+        },
+        "1d"
+      );
+      const refreshToken = tokenHandler.createRefreshToken(
+        {
+          id: currentUser.id,
+          firstname: currentUser.firstname,
+        },
+        "1d"
+      );
+
+      // Return Access Token
       return responseHandler.responseSuccess(200, "Logged in Successfully", {
-        email,
-        password,
+        accessToken,
+        refreshToken,
       });
     } catch (error) {
+      console.log("error", error);
       return responseHandler.responseError(400, "error");
     }
   }

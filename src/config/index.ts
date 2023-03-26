@@ -9,6 +9,8 @@ type configType = {
   dbHost: string;
   dbPassword: string;
   env: string;
+  accessTokenSecret: string;
+  refreshTokenSecret: string;
 };
 export const config = Object.freeze({
   port: process.env.PORT,
@@ -17,4 +19,7 @@ export const config = Object.freeze({
   dbHost: process.env.DB_HOST,
   dbPassword: process.env.DB_PASSWORD,
   env: process.env.NODE_ENV,
+  accessTokenSecret: process.env.ACCESS_TOKEN_SECRET,
+  refreshTokenSecret: process.env.REFRESH_TOKEN_SECRET,
 } as configType);
+

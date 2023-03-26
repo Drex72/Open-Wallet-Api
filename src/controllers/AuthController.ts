@@ -33,6 +33,19 @@ class AuthController {
   loginUser = async (req: Request, res: Response) => {
     const { email, password } = req.body;
     const user = await this.authService.login(email, password);
+
+    if (user.statusCode === 200) {
+      const { refreshToken } = user.response?.data;
+
+      // Store refresh token in cookie
+      res.cookie("refresh_token", refreshToken, {
+        httpOnly: true,
+        sameSite: "none",
+        secure: true,
+        maxAge: 24 * 60 * 60 * 1000,
+      });
+    }
+    console.log(user);
     res.status(user.statusCode).send(user.response);
   };
 }
