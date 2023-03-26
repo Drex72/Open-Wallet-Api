@@ -5,6 +5,11 @@ import httpStatus from "http-status";
 import ApiError from "./exceptions/ApiErrorException";
 import { config } from "./config";
 import sequelizeConnection from "./config/database";
+import { UserMap } from "./models";
+import Wallet, { WalletMap } from "./models/Wallets";
+import Currency, { CurrencyMap } from "./models/Currency";
+import currencyService from "./services/CurrencyService";
+import User from "./models/Users";
 
 const app: Application = express();
 
@@ -21,11 +26,23 @@ app.use((_, __, next) => {
 app.use(errorHandler.errorConverter);
 app.use(errorHandler.errorHandler);
 
+UserMap(sequelizeConnection);
+CurrencyMap(sequelizeConnection);
+WalletMap(sequelizeConnection);
+
+// Associations
+User.hasMany(Wallet);
+Wallet.belongsTo(User);
+// Wallet.hasOne(Currency);
+// Currency.belongsToMany(Wallet);
+
 sequelizeConnection
-  .sync({ force: true })
+  .sync()
   .then((res) => {
-    console.log("DB Connected Successfully to", res.config.database);
+    console.log("DB Connected Successfully to", res?.config.database);
     app.listen(PORT, () => {
+      currencyService.addCurrencyToDb();
+
       console.log(`Listening on Port ${PORT}`);
     });
   })

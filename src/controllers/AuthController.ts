@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import AuthService from "../services/AuthService";
+import currencyService from "../services/CurrencyService";
 
 class AuthController {
   authService: AuthService;
@@ -14,6 +15,10 @@ class AuthController {
    */
 
   registerUser = async (req: Request, res: Response): Promise<void> => {
+    // Adds Currency To Database
+    // currencyService.addCurrencyToDb();
+
+    // Creates The User
     const { email, password, firstname, lastname } = req.body;
     const newUser = await this.authService.createUser(
       email,
@@ -45,7 +50,6 @@ class AuthController {
         maxAge: 24 * 60 * 60 * 1000,
       });
     }
-    console.log(user);
     res.status(user.statusCode).send(user.response);
   };
 }

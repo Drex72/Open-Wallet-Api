@@ -7,6 +7,7 @@ import {
   Sequelize,
 } from "sequelize";
 import sequelizeConnection from "../config/database";
+import Wallet from "./Wallets";
 
 export default class User extends Model<
   InferAttributes<User>,
@@ -16,7 +17,7 @@ export default class User extends Model<
   declare firstname: string;
   declare lastname: string;
   declare email: string;
-  declare password?: CreationOptional<string | null>;
+  declare password: CreationOptional<string | null>;
 }
 
 export const UserMap = (sequelize: Sequelize) => {
@@ -45,13 +46,18 @@ export const UserMap = (sequelize: Sequelize) => {
 
       password: {
         type: DataTypes.STRING,
-        allowNull: true,
+        allowNull: false,
       },
     },
     {
       modelName: "user",
-      sequelize: sequelizeConnection,
+      tableName: "user",
+      freezeTableName: true,
+      sequelize: sequelize,
       timestamps: true,
     }
   );
+  User.sync();
 };
+
+// User.hasMany(Wallet);

@@ -1,7 +1,6 @@
 import responseHandler from "../handlers/ResponseHandler";
 import bcrypt from "bcrypt";
-import User, { UserMap } from "../models/Users";
-import sequelizeConnection from "../config/database";
+import User from "../models/Users";
 import ApiErrorException from "../exceptions/ApiErrorException";
 import tokenHandler from "../handlers/TokenHandlers";
 
@@ -24,8 +23,6 @@ class AuthService {
     statusCode: number;
   }> {
     try {
-      UserMap(sequelizeConnection);
-
       // Check if email exists
       const result = await User.findAll({ where: { email } });
       if (result.length) {
@@ -67,7 +64,7 @@ class AuthService {
     statusCode: number;
   }> {
     try {
-      UserMap(sequelizeConnection);
+      // UserMap(sequelizeConnection);
 
       // Check if email exists
       const result = await User.findOne({ where: { email } });
@@ -92,6 +89,7 @@ class AuthService {
         {
           id: currentUser.id,
           firstname: currentUser.firstname,
+          email: currentUser.email,
         },
         "1d"
       );
