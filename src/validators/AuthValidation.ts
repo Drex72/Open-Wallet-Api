@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import ApiError from "../eceptions/ApiErrorException";
+import ApiError from "../exceptions/ApiErrorException";
 import * as Joi from "joi";
 
 class AuthValidation {
@@ -10,6 +10,8 @@ class AuthValidation {
     const createUserValidationSchema: Joi.ObjectSchema = Joi.object({
       email: Joi.string().required(),
       password: Joi.string().required(),
+      firstname: Joi.string().required(),
+      lastname: Joi.string().required(),
     });
 
     // Schema Options
@@ -43,7 +45,7 @@ class AuthValidation {
     const { body } = req;
 
     // Create User Schema
-    const createUserValidationSchema: Joi.ObjectSchema = Joi.object({
+    const loginUserValidationSchema: Joi.ObjectSchema = Joi.object({
       email: Joi.string().required(),
       password: Joi.string().required(),
     });
@@ -55,7 +57,7 @@ class AuthValidation {
       stripUnknown: true, // remove unknown props
     };
 
-    const { error, value } = createUserValidationSchema.validate(
+    const { error, value } = loginUserValidationSchema.validate(
       body,
       schemaOptions
     );

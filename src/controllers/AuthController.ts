@@ -14,10 +14,14 @@ class AuthController {
    */
 
   registerUser = async (req: Request, res: Response): Promise<void> => {
-    try {
-      const { email, password } = req.body;
-      const newUser = await this.authService.createUser(email, password);
-    } catch (error) {}
+    const { email, password, firstname, lastname } = req.body;
+    const newUser = await this.authService.createUser(
+      email,
+      password,
+      firstname,
+      lastname
+    );
+    res.status(newUser.statusCode).send(newUser.response);
   };
 
   /**
@@ -27,11 +31,9 @@ class AuthController {
    */
 
   loginUser = async (req: Request, res: Response) => {
-    try {
-      const { email, password } = req.body;
-      const user = await this.authService.login(email, password);
-      res.status(201).json({ data: user });
-    } catch (error) {}
+    const { email, password } = req.body;
+    const user = await this.authService.login(email, password);
+    res.status(user.statusCode).send(user.response);
   };
 }
 

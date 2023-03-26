@@ -10,6 +10,14 @@ class UserController implements User {
     public id: string,
     public firstname: string,
     public lastname: string,
-    public email: string
+    public email: string,
+
   ) {}
+}
+
+
+const ff = (): Promise<string> => {
+  return new Promise((res, rej) => {
+    res('a')
+  })
 }

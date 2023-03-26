@@ -5,10 +5,10 @@ import authValidation from "../validators/AuthValidation";
 const router = express.Router();
 
 router
-  .route("/")
+  .route("/users")
   .post(authValidation.createUserValidation, authController.registerUser);
 router
-  .route("/login")
+  .route("/users/login")
   .post(authValidation.userLoginValidation, authController.loginUser);
 
 export default router;

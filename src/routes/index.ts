@@ -11,7 +11,7 @@ type routeObject = {
 
 const allRoutes: routeObject[] = [
   {
-    path: "/users",
+    path: "/auth",
     routes: authRouter,
   },
   {

@@ -1,12 +1,12 @@
-import express from "express";
+import express, { Application } from "express";
 import errorHandler from "./handlers/ErrorHandler";
 import allRoutes from "./routes";
 import httpStatus from "http-status";
-import ApiError from "./eceptions/ApiErrorException";
-import { sequelize } from "./config/database";
+import ApiError from "./exceptions/ApiErrorException";
 import { config } from "./config";
+import sequelizeConnection from "./config/database";
 
-const app = express();
+const app: Application = express();
 
 const PORT = config.port || 3500;
 app.use(express.json());
@@ -21,8 +21,8 @@ app.use((_, __, next) => {
 app.use(errorHandler.errorConverter);
 app.use(errorHandler.errorHandler);
 
-sequelize
-  .sync()
+sequelizeConnection
+  .sync({ force: true })
   .then((res) => {
     console.log("DB Connected Successfully to", res.config.database);
     app.listen(PORT, () => {

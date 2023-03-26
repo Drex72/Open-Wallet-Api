@@ -1,12 +1,14 @@
-import { Sequelize } from "sequelize";
+import { Dialect, Sequelize } from "sequelize";
 import { config } from "./";
 
-export const sequelize = new Sequelize(
+const sequelizeConnection = new Sequelize(
   config.dbName,
   config.dbUserName,
   config.dbPassword,
   {
     host: config.dbHost,
-    dialect: "mysql",
+    dialect: "mysql" as Dialect,
   }
 );
+
+export default sequelizeConnection;

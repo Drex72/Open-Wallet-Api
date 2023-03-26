@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { config } from "../config";
 import httpStatus from "http-status";
-import ApiError from "../eceptions/ApiErrorException";
+import ApiError from "../exceptions/ApiErrorException";
 
 class ErrorHandler {
   errorConverter = (
